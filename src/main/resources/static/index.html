@@ -1,34 +1,59 @@
-package com.example.demo.config;
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Objetivos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Gerenciador de Objetivos</h1>
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+        <div class="form-container">
+            <h2>Criar/Atualizar Objetivo</h2>
+            <form id="objectiveForm">
+                <input type="hidden" id="objectiveId">
+                <div class="form-group">
+                    <label for="title">Título:</label>
+                    <input type="text" id="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Descrição:</label>
+                    <textarea id="description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="teamName">Nome do Time:</label>
+                    <input type="text" id="teamName" required>
+                </div>
+                <div class="form-group">
+                    <label for="cycleName">Nome do Ciclo:</label>
+                    <input type="text" id="cycleName" required>
+                </div>
+                <button type="submit" id="submitBtn">Criar Objetivo</button>
+                <button type="button" id="resetBtn">Limpar</button>
+            </form>
+        </div>
 
-@Configuration
-@EnableWebSecurity
-public class SecurityConfig {
+        <div class="list-container">
+            <h2>Lista de Objetivos</h2>
+            <table id="objectivesTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Descrição</th>
+                        <th>Time</th>
+                        <th>Ciclo</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </div>
+    </div>
 
-    @Autowired
-    private SecurityFilter securityFilter;
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(AbstractHttpConfigurer::disable)
-            .cors(Customizer.withDefaults())
-            .authorizeHttpRequests(authz -> authz
-                .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-                .requestMatchers("/api/**").authenticated()
-                .anyRequest().permitAll() // Temporariamente permite todas as outras rotas para testes
-            )
-            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
-        return http.build();
-    }
-}
+    <script src="script.js"></script>
+</body>
+</html>
