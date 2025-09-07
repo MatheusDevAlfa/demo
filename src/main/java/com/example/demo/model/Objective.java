@@ -2,34 +2,34 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
-@Table(name = "tbl_objeivos") // Nome da tabela no banco de dados
+@Table(name = "tbl_objetivos") // Nome da tabela no banco
 public class Objective {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "obj_id") // Nome da coluna de ID
+    @Column(name = "obj_id")
     private Long id;
 
-    @Column(name = "titulo") // Nome da coluna de Título
+    @Column(name = "titulo", nullable = false) // Não pode ser nulo
     private String title;
 
-    @Column(name = "descricao") // Nome da coluna de Descrição
+    @Column(name = "descricao")
     private String description;
 
-    private boolean completed;
-
-    @Column(name = "data_criacao") // Exemplo: se o nome da coluna fosse diferente
-    private LocalDate creationDate;
-
     @ManyToOne
-    @JoinColumn(name = "fk_time") // Nome da coluna de chave estrangeira para Time
+    @JoinColumn(name = "fk_time", nullable = false) // Time deve existir
     private Team team;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_ciclo") // Nome da coluna de chave estrangeira para Ciclo
-    private Cycle cycle;
+    @ManyToMany
+    @JoinTable(
+            name = "objective_cycles",
+            joinColumns = @JoinColumn(name = "objective_id"),
+            inverseJoinColumns = @JoinColumn(name = "cycle_id")
+    )
+    private Set<Cycle> cycles = new HashSet<>(); // Objetivo pode pertencer a vários ciclos
 }
