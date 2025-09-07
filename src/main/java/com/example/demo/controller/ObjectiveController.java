@@ -22,6 +22,13 @@ public class ObjectiveController {
         return objectiveService.findAll();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Objective> getObjectiveById(@PathVariable Long id) {
+        return objectiveService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @PostMapping
     public ResponseEntity<Objective> createObjective(@RequestBody ObjectiveDTO dto) {
         Objective createdObjective = objectiveService.createFromDTO(dto);
@@ -30,8 +37,7 @@ public class ObjectiveController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Objective> updateObjective(@PathVariable Long id, @RequestBody ObjectiveDTO dto) {
-        Objective objectiveToUpdate = objectiveService.createFromDTO(dto);
-        Objective updatedObjective = objectiveService.update(id, objectiveToUpdate);
+        Objective updatedObjective = objectiveService.updateFromDTO(id, dto);
         return ResponseEntity.ok(updatedObjective);
     }
 
