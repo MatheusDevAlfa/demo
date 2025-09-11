@@ -1,7 +1,7 @@
-package com.example.demo.controller;
+package com.example.demo.Controller;
 
 import com.example.demo.DTO.ObjectiveDTO;
-import com.example.demo.model.Objective;
+import com.example.demo.domain.entity.ObjectiveEntity;
 import com.example.demo.service.ObjectiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,27 +18,27 @@ public class ObjectiveController {
     private ObjectiveService objectiveService;
 
     @GetMapping
-    public List<Objective> getAllObjectives() {
+    public List<ObjectiveEntity> getAllObjectives() {
         return objectiveService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Objective> getObjectiveById(@PathVariable Long id) {
+    public ResponseEntity<ObjectiveEntity> getObjectiveById(@PathVariable Long id) {
         return objectiveService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Objective> createObjective(@RequestBody ObjectiveDTO dto) {
-        Objective createdObjective = objectiveService.createFromDTO(dto);
-        return ResponseEntity.status(201).body(createdObjective);
+    public ResponseEntity<ObjectiveEntity> createObjective(@RequestBody ObjectiveDTO dto) {
+        ObjectiveEntity createdObjectiveEntity = objectiveService.createFromDTO(dto);
+        return ResponseEntity.status(201).body(createdObjectiveEntity);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Objective> updateObjective(@PathVariable Long id, @RequestBody ObjectiveDTO dto) {
-        Objective updatedObjective = objectiveService.updateFromDTO(id, dto);
-        return ResponseEntity.ok(updatedObjective);
+    public ResponseEntity<ObjectiveEntity> updateObjective(@PathVariable Long id, @RequestBody ObjectiveDTO dto) {
+        ObjectiveEntity updatedObjectiveEntity = objectiveService.updateFromDTO(id, dto);
+        return ResponseEntity.ok(updatedObjectiveEntity);
     }
 
     @DeleteMapping("/{id}")

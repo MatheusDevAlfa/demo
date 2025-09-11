@@ -1,24 +1,18 @@
-package com.example.demo.model;
+package com.example.demo.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import java.time.LocalDate;
 
 @Entity
 @Data
-public class Cycle {
+public class Team {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
-    private String name; // Ex: Q1 2024
-
-    @Column
-    private LocalDate startDate;
-
-    @Column
-    private LocalDate endDate;
+    private String name;
 
     // Flag de controle de status
     @Column(nullable = false)

@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.example.demo.domain.entity;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
@@ -16,14 +16,14 @@ import java.util.Set;
 @Filters({
         @Filter(name = "deletedFilter")
 })
-public class Objective {
+public class ObjectiveEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "obj_id")
     private Long id;
 
-    @Column(name = "titulo", nullable = false) // Não pode ser nulo
+    @Column(name = "titulo", nullable = false)
     private String title;
 
     @Column(name = "descricao")
@@ -36,7 +36,7 @@ public class Objective {
     private boolean deleted = false;
 
     @ManyToOne
-    @JoinColumn(name = "fk_time", nullable = false) // Time deve existir
+    @JoinColumn(name = "fk_time", nullable = false)
     private Team team;
 
     @ManyToMany

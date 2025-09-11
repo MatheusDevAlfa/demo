@@ -1,9 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.DTO.ObjectiveDTO;
-import com.example.demo.model.Cycle;
-import com.example.demo.model.Objective;
-import com.example.demo.model.Team;
+import com.example.demo.domain.entity.Cycle;
+import com.example.demo.domain.entity.ObjectiveEntity;
+import com.example.demo.domain.entity.Team;
 import com.example.demo.repository.CycleRepository;
 import com.example.demo.repository.ObjectiveRepository;
 import com.example.demo.repository.TeamRepository;
@@ -30,21 +30,21 @@ public class ObjectiveService {
     private CycleRepository cycleRepository;
 
     //------------------------ Buscar todos os objetivos ativos ------------------------------
-    public List<Objective> findAll() {
+    public List<ObjectiveEntity> findAll() {
         return objectiveRepository.findAll()
                 .stream()
-                .filter(Objective::isActive)
+                .filter(ObjectiveEntity::isActive)
                 .toList();
     }
 
     //------------------------ Buscar objetivo ativo por ID ---------------------------------
-    public Optional<Objective> findById(Long id) {
+    public Optional<ObjectiveEntity> findById(Long id) {
         return objectiveRepository.findById(id)
-                .filter(Objective::isActive);
+                .filter(ObjectiveEntity::isActive);
     }
 
     //------------------------ Criar objetivo a partir de DTO --------------------------------
-    public Objective createFromDTO(ObjectiveDTO dto) {
+    public ObjectiveEntity createFromDTO(ObjectiveDTO dto) {
         validateDTO(dto); // Valida título, team e cycles
 
         Team team = teamRepository.findByName(dto.getTeamName())
@@ -52,22 +52,22 @@ public class ObjectiveService {
 
         Set<Cycle> cycles = fetchValidCycles(dto.getCycleIds());
 
-        Objective objective = new Objective();
-        objective.setTitle(dto.getTitle());
-        objective.setDescription(dto.getDescription());
-        objective.setTeam(team);
-        objective.setCycles(cycles);
-        objective.setActive(true);
+        ObjectiveEntity objectiveEntity = new ObjectiveEntity();
+        objectiveEntity.setTitle(dto.getTitle());
+        objectiveEntity.setDescription(dto.getDescription());
+        objectiveEntity.setTeam(team);
+        objectiveEntity.setCycles(cycles);
+        objectiveEntity.setActive(true);
 
-        return objectiveRepository.save(objective);
+        return objectiveRepository.save(objectiveEntity);
     }
 
     //------------------------ Atualizar objetivo a partir de DTO ---------------------------
-    public Objective updateFromDTO(Long id, ObjectiveDTO dto) {
-        Objective existingObjective = objectiveRepository.findById(id)
+    public ObjectiveEntity updateFromDTO(Long id, ObjectiveDTO dto) {
+        ObjectiveEntity existingObjectiveEntity = objectiveRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Objective not found with ID " + id));
 
-        if (!existingObjective.isActive()) {
+        if (!existingObjectiveEntity.isActive()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Objetivo não está ativo e não pode ser alterado");
         }
 
@@ -78,20 +78,20 @@ public class ObjectiveService {
 
         Set<Cycle> cycles = fetchValidCycles(dto.getCycleIds());
 
-        existingObjective.setTitle(dto.getTitle());
-        existingObjective.setDescription(dto.getDescription());
-        existingObjective.setTeam(team);
-        existingObjective.setCycles(cycles);
+        existingObjectiveEntity.setTitle(dto.getTitle());
+        existingObjectiveEntity.setDescription(dto.getDescription());
+        existingObjectiveEntity.setTeam(team);
+        existingObjectiveEntity.setCycles(cycles);
 
-        return objectiveRepository.save(existingObjective);
+        return objectiveRepository.save(existingObjectiveEntity);
     }
 
     //------------------------ Deletar objetivo (soft delete) --------------------------------
-    public Objective delete(Long id) {
-        Objective objective = objectiveRepository.findById(id)
+    public ObjectiveEntity delete(Long id) {
+        ObjectiveEntity objectiveEntity = objectiveRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Objective not found with ID " + id));
-        objective.setActive(false);
-        return objectiveRepository.save(objective);
+        objectiveEntity.setActive(false);
+        return objectiveRepository.save(objectiveEntity);
     }
 
     //------------------------ Métodos auxiliares -------------------------------------------

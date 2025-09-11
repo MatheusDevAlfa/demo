@@ -1,9 +1,9 @@
 package unitarios;
 
 import com.example.demo.DTO.ObjectiveDTO;
-import com.example.demo.model.Cycle;
-import com.example.demo.model.Objective;
-import com.example.demo.model.Team;
+import com.example.demo.domain.entity.Cycle;
+import com.example.demo.domain.entity.ObjectiveEntity;
+import com.example.demo.domain.entity.Team;
 import com.example.demo.repository.CycleRepository;
 import com.example.demo.repository.ObjectiveRepository;
 import com.example.demo.repository.TeamRepository;
@@ -20,7 +20,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ObjectiveServiceTest {
+class ObjectiveModelEntityServiceTest {
 
     @InjectMocks
     private ObjectiveService objectiveService;
@@ -37,7 +37,7 @@ class ObjectiveServiceTest {
     private Team team;
     private Cycle activeCycle;
     private Cycle inactiveCycle;
-    private Objective objective;
+    private ObjectiveEntity objectiveEntity;
 
     @BeforeEach
     void setUp() {
@@ -57,25 +57,25 @@ class ObjectiveServiceTest {
         inactiveCycle.setActive(false);
 
         // Objetivo de teste
-        objective = new Objective();
-        objective.setId(1L);
-        objective.setTitle("Objetivo 1");
-        objective.setDescription("Descrição 1");
-        objective.setTeam(team);
-        objective.setCycles(Set.of(activeCycle));
-        objective.setActive(true);
+        objectiveEntity = new ObjectiveEntity();
+        objectiveEntity.setId(1L);
+        objectiveEntity.setTitle("Objetivo 1");
+        objectiveEntity.setDescription("Descrição 1");
+        objectiveEntity.setTeam(team);
+        objectiveEntity.setCycles(Set.of(activeCycle));
+        objectiveEntity.setActive(true);
     }
 
     //--------------------- TESTE findAll -----------------------------------
     @Test
     void testFindAll_ReturnsOnlyActiveObjectives() {
-        Objective inactiveObjective = new Objective();
-        inactiveObjective.setActive(false);
+        ObjectiveEntity inactiveObjectiveEntity = new ObjectiveEntity();
+        inactiveObjectiveEntity.setActive(false);
 
         // Retorna lista com objetivo ativo e inativo
-        when(objectiveRepository.findAll()).thenReturn(List.of(objective, inactiveObjective));
+        when(objectiveRepository.findAll()).thenReturn(List.of(objectiveEntity, inactiveObjectiveEntity));
 
-        List<Objective> result = objectiveService.findAll();
+        List<ObjectiveEntity> result = objectiveService.findAll();
 
         // Apenas objetivos ativos devem ser retornados
         assertEquals(1, result.size());
@@ -85,9 +85,9 @@ class ObjectiveServiceTest {
     //--------------------- TESTE findById -----------------------------------
     @Test
     void testFindById_ReturnsActiveObjective() {
-        when(objectiveRepository.findById(1L)).thenReturn(Optional.of(objective));
+        when(objectiveRepository.findById(1L)).thenReturn(Optional.of(objectiveEntity));
 
-        Optional<Objective> result = objectiveService.findById(1L);
+        Optional<ObjectiveEntity> result = objectiveService.findById(1L);
 
         // Objetivo ativo deve ser retornado
         assertTrue(result.isPresent());
@@ -96,10 +96,10 @@ class ObjectiveServiceTest {
 
     @Test
     void testFindById_InactiveObjective_ReturnsEmpty() {
-        objective.setActive(false);
-        when(objectiveRepository.findById(1L)).thenReturn(Optional.of(objective));
+        objectiveEntity.setActive(false);
+        when(objectiveRepository.findById(1L)).thenReturn(Optional.of(objectiveEntity));
 
-        Optional<Objective> result = objectiveService.findById(1L);
+        Optional<ObjectiveEntity> result = objectiveService.findById(1L);
 
         // Objetivo inativo deve retornar Optional vazio
         assertTrue(result.isEmpty());
@@ -117,9 +117,9 @@ class ObjectiveServiceTest {
         // Mock dos repositórios
         when(teamRepository.findByName("Time A")).thenReturn(Optional.of(team));
         when(cycleRepository.findById(1L)).thenReturn(Optional.of(activeCycle));
-        when(objectiveRepository.save(any(Objective.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(objectiveRepository.save(any(ObjectiveEntity.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        Objective result = objectiveService.createFromDTO(dto);
+        ObjectiveEntity result = objectiveService.createFromDTO(dto);
 
         // Verifica se os campos foram atribuídos corretamente
         assertEquals("Novo Objetivo", result.getTitle());
@@ -216,12 +216,12 @@ class ObjectiveServiceTest {
         dto.setTeamName("Time A");
         dto.setCycleIds(Set.of(1L));
 
-        when(objectiveRepository.findById(1L)).thenReturn(Optional.of(objective));
+        when(objectiveRepository.findById(1L)).thenReturn(Optional.of(objectiveEntity));
         when(teamRepository.findByName("Time A")).thenReturn(Optional.of(team));
         when(cycleRepository.findById(1L)).thenReturn(Optional.of(activeCycle));
-        when(objectiveRepository.save(any(Objective.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(objectiveRepository.save(any(ObjectiveEntity.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        Objective result = objectiveService.updateFromDTO(1L, dto);
+        ObjectiveEntity result = objectiveService.updateFromDTO(1L, dto);
 
         assertEquals("Atualizado", result.getTitle());
         assertEquals("Atualizado Desc", result.getDescription());
@@ -230,8 +230,8 @@ class ObjectiveServiceTest {
 
     @Test
     void testUpdateFromDTO_ThrowsException_WhenObjectiveInactive() {
-        objective.setActive(false);
-        when(objectiveRepository.findById(1L)).thenReturn(Optional.of(objective));
+        objectiveEntity.setActive(false);
+        when(objectiveRepository.findById(1L)).thenReturn(Optional.of(objectiveEntity));
 
         ObjectiveDTO dto = new ObjectiveDTO();
         dto.setTitle("Teste");
@@ -264,7 +264,7 @@ class ObjectiveServiceTest {
         dto.setTeamName("Time Desconhecido");
         dto.setCycleIds(Set.of(1L));
 
-        when(objectiveRepository.findById(1L)).thenReturn(Optional.of(objective));
+        when(objectiveRepository.findById(1L)).thenReturn(Optional.of(objectiveEntity));
         when(teamRepository.findByName("Time Desconhecido")).thenReturn(Optional.empty());
 
         ResponseStatusException ex = assertThrows(ResponseStatusException.class,
@@ -279,7 +279,7 @@ class ObjectiveServiceTest {
         dto.setTeamName("Time A");
         dto.setCycleIds(Set.of(2L));
 
-        when(objectiveRepository.findById(1L)).thenReturn(Optional.of(objective));
+        when(objectiveRepository.findById(1L)).thenReturn(Optional.of(objectiveEntity));
         when(teamRepository.findByName("Time A")).thenReturn(Optional.of(team));
         when(cycleRepository.findById(2L)).thenReturn(Optional.of(inactiveCycle));
 
@@ -291,10 +291,10 @@ class ObjectiveServiceTest {
     //--------------------- TESTES delete -----------------------------------
     @Test
     void testDelete_Success() {
-        when(objectiveRepository.findById(1L)).thenReturn(Optional.of(objective));
-        when(objectiveRepository.save(any(Objective.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(objectiveRepository.findById(1L)).thenReturn(Optional.of(objectiveEntity));
+        when(objectiveRepository.save(any(ObjectiveEntity.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        Objective result = objectiveService.delete(1L);
+        ObjectiveEntity result = objectiveService.delete(1L);
 
         // Objetivo deve ser marcado como inativo
         assertFalse(result.isActive());

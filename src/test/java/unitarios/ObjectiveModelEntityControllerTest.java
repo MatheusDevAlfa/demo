@@ -1,10 +1,10 @@
 package unitarios;
 
 import com.example.demo.DTO.ObjectiveDTO;
-import com.example.demo.controller.ObjectiveController;
-import com.example.demo.model.Objective;
-import com.example.demo.model.Team;
-import com.example.demo.model.Cycle;
+import com.example.demo.Controller.ObjectiveController;
+import com.example.demo.domain.entity.ObjectiveEntity;
+import com.example.demo.domain.entity.Team;
+import com.example.demo.domain.entity.Cycle;
 import com.example.demo.service.ObjectiveService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ObjectiveControllerTest {
+class ObjectiveModelEntityControllerTest {
 
     @InjectMocks
     private ObjectiveController controller;
@@ -29,7 +29,7 @@ class ObjectiveControllerTest {
     @Mock
     private ObjectiveService objectiveService;
 
-    private Objective objective;
+    private ObjectiveEntity objectiveEntity;
     private ObjectiveDTO dto;
 
     @BeforeEach
@@ -44,13 +44,13 @@ class ObjectiveControllerTest {
         cycle.setId(1L);
         cycle.setActive(true);
 
-        objective = new Objective();
-        objective.setId(1L);
-        objective.setTitle("Objetivo 1");
-        objective.setDescription("Descrição 1");
-        objective.setTeam(team);
-        objective.setCycles(Set.of(cycle));
-        objective.setActive(true);
+        objectiveEntity = new ObjectiveEntity();
+        objectiveEntity.setId(1L);
+        objectiveEntity.setTitle("Objetivo 1");
+        objectiveEntity.setDescription("Descrição 1");
+        objectiveEntity.setTeam(team);
+        objectiveEntity.setCycles(Set.of(cycle));
+        objectiveEntity.setActive(true);
 
         dto = new ObjectiveDTO();
         dto.setTitle("Novo Objetivo");
@@ -62,9 +62,9 @@ class ObjectiveControllerTest {
     //--------------------- TESTE getAllObjectives -----------------------------------
     @Test
     void testGetAllObjectives_ReturnsList() {
-        when(objectiveService.findAll()).thenReturn(List.of(objective));
+        when(objectiveService.findAll()).thenReturn(List.of(objectiveEntity));
 
-        List<Objective> result = controller.getAllObjectives();
+        List<ObjectiveEntity> result = controller.getAllObjectives();
 
         // Verificação: lista retornada não é nula e contém o objetivo esperado
         assertNotNull(result);
@@ -75,9 +75,9 @@ class ObjectiveControllerTest {
     //--------------------- TESTE getObjectiveById -----------------------------------
     @Test
     void testGetObjectiveById_Found() {
-        when(objectiveService.findById(1L)).thenReturn(Optional.of(objective));
+        when(objectiveService.findById(1L)).thenReturn(Optional.of(objectiveEntity));
 
-        ResponseEntity<Objective> response = controller.getObjectiveById(1L);
+        ResponseEntity<ObjectiveEntity> response = controller.getObjectiveById(1L);
 
         // Verificação: status 200 OK e body correto
         assertEquals(200, response.getStatusCodeValue());
@@ -88,7 +88,7 @@ class ObjectiveControllerTest {
     void testGetObjectiveById_NotFound() {
         when(objectiveService.findById(99L)).thenReturn(Optional.empty());
 
-        ResponseEntity<Objective> response = controller.getObjectiveById(99L);
+        ResponseEntity<ObjectiveEntity> response = controller.getObjectiveById(99L);
 
         // Verificação: status 404 Not Found e body nulo
         assertEquals(404, response.getStatusCodeValue());
@@ -98,9 +98,9 @@ class ObjectiveControllerTest {
     //--------------------- TESTE createObjective -----------------------------------
     @Test
     void testCreateObjective_Success() {
-        when(objectiveService.createFromDTO(dto)).thenReturn(objective);
+        when(objectiveService.createFromDTO(dto)).thenReturn(objectiveEntity);
 
-        ResponseEntity<Objective> response = controller.createObjective(dto);
+        ResponseEntity<ObjectiveEntity> response = controller.createObjective(dto);
 
         // Verificação: status 201 Created e body correto
         assertEquals(201, response.getStatusCodeValue());
@@ -110,9 +110,9 @@ class ObjectiveControllerTest {
     //--------------------- TESTE updateObjective -----------------------------------
     @Test
     void testUpdateObjective_Success() {
-        when(objectiveService.updateFromDTO(1L, dto)).thenReturn(objective);
+        when(objectiveService.updateFromDTO(1L, dto)).thenReturn(objectiveEntity);
 
-        ResponseEntity<Objective> response = controller.updateObjective(1L, dto);
+        ResponseEntity<ObjectiveEntity> response = controller.updateObjective(1L, dto);
 
         // Verificação: status 200 OK e body correto
         assertEquals(200, response.getStatusCodeValue());
@@ -136,7 +136,7 @@ class ObjectiveControllerTest {
     @Test
     void testDeleteObjective_Success() {
         // Mock do service para retornar o objetivo inativo após deleção
-        when(objectiveService.delete(1L)).thenReturn(objective);
+        when(objectiveService.delete(1L)).thenReturn(objectiveEntity);
 
         ResponseEntity<Void> response = controller.deleteObjective(1L);
 
