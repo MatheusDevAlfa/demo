@@ -1,8 +1,8 @@
-package com.example.demo.Controller;
+package com.example.okr.Controller;
 
-import com.example.demo.DTO.ObjectiveDTO;
-import com.example.demo.domain.entity.ObjectiveEntity;
-import com.example.demo.service.ObjectiveService;
+import com.example.okr.DTO.ObjetivoDTO;
+import com.example.okr.domain.entity.ObjetivoEntity;
+import com.example.okr.service.ObjectiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,27 +18,27 @@ public class ObjectiveController {
     private ObjectiveService objectiveService;
 
     @GetMapping
-    public List<ObjectiveEntity> getAllObjectives() {
+    public List<ObjetivoEntity> getAllObjectives() {
         return objectiveService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ObjectiveEntity> getObjectiveById(@PathVariable Long id) {
+    public ResponseEntity<ObjetivoEntity> getObjectiveById(@PathVariable Long id) {
         return objectiveService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<ObjectiveEntity> createObjective(@RequestBody ObjectiveDTO dto) {
-        ObjectiveEntity createdObjectiveEntity = objectiveService.createFromDTO(dto);
-        return ResponseEntity.status(201).body(createdObjectiveEntity);
+    public ResponseEntity<ObjetivoEntity> createObjective(@RequestBody ObjetivoDTO dto) {
+        ObjetivoEntity createdObjetivoEntity = objectiveService.createFromDTO(dto);
+        return ResponseEntity.status(201).body(createdObjetivoEntity);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ObjectiveEntity> updateObjective(@PathVariable Long id, @RequestBody ObjectiveDTO dto) {
-        ObjectiveEntity updatedObjectiveEntity = objectiveService.updateFromDTO(id, dto);
-        return ResponseEntity.ok(updatedObjectiveEntity);
+    public ResponseEntity<ObjetivoEntity> updateObjective(@PathVariable Long id, @RequestBody ObjetivoDTO dto) {
+        ObjetivoEntity updatedObjetivoEntity = objectiveService.updateFromDTO(id, dto);
+        return ResponseEntity.ok(updatedObjetivoEntity);
     }
 
     @DeleteMapping("/{id}")

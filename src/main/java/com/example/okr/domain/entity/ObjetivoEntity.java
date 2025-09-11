@@ -1,4 +1,4 @@
-package com.example.demo.domain.entity;
+package com.example.okr.domain.entity;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
@@ -16,7 +16,7 @@ import java.util.Set;
 @Filters({
         @Filter(name = "deletedFilter")
 })
-public class ObjectiveEntity {
+public class ObjetivoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,20 +24,20 @@ public class ObjectiveEntity {
     private Long id;
 
     @Column(name = "titulo", nullable = false)
-    private String title;
+    private String titulo;
 
     @Column(name = "descricao")
-    private String description;
+    private String descricao;
 
     @Column(nullable = false)
-    private boolean active = true;
+    private boolean flagAtivo = true;
 
-    @Column(nullable = false)
-    private boolean deleted = false;
+//    @Column(nullable = false)
+//    private boolean Deleta = false;
 
     @ManyToOne
     @JoinColumn(name = "fk_time", nullable = false)
-    private Team team;
+    private TimeEntity timeEntity;
 
     @ManyToMany
     @JoinTable(
@@ -45,5 +45,5 @@ public class ObjectiveEntity {
             joinColumns = @JoinColumn(name = "objective_id"),
             inverseJoinColumns = @JoinColumn(name = "cycle_id")
     )
-    private Set<Cycle> cycles = new HashSet<>(); // Objetivo pode pertencer a vários ciclos
+    private Set<CicloEtity> cicloEntity = new HashSet<>(); // Objetivo pode pertencer a vários ciclos
 }

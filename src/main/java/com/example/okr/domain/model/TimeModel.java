@@ -1,12 +1,12 @@
-package com.example.demo.domain.model;
+package com.example.okr.domain.model;
 
-public class TeamModel {
+public class TimeModel {
 
     private Long id;
     private String name;
     private boolean active;
 
-    public TeamModel(Long id, String name, boolean active) {
+    public TimeModel(Long id, String name, boolean active) {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("O time precisa de um nome válido");
         }
