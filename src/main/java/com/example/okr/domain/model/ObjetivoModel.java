@@ -1,7 +1,6 @@
 package com.example.okr.domain.model;
 
-import com.example.okr.domain.entity.CicloEtity;
-import lombok.Data;
+import com.example.okr.domain.entity.CicloEntity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +14,7 @@ public class ObjetivoModel {
     private Set<CicloModel> ciclos = new HashSet<>();
     private TimeModel time;
 
-    public ObjetivoModel(Long id, String titulo, String descrição, boolean flagAtivo, TimeModel team, Set<CicloEtity> cicloEtities) {
+    public ObjetivoModel(Long id, String titulo, String descrição, boolean flagAtivo, TimeModel team, Set<CicloEntity> cicloEtities) {
         if (titulo == null || titulo.isBlank()) {
             throw new IllegalArgumentException("O título do objetivo é obrigatório");
         }

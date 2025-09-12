@@ -25,7 +25,7 @@ CREATE TABLE objective (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     description VARCHAR(1000),
-    is_completed BOOLEAN NOT NULL DEFAULT FALSE,
+--    is_completed BOOLEAN NOT NULL DEFAULT FALSE,
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
     team_id BIGINT NOT NULL,
     CONSTRAINT fk_objective_team FOREIGN KEY (team_id) REFERENCES team(id)

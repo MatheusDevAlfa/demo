@@ -246,8 +246,8 @@ Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot lo
             at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:223)
             ~[spring-aop-6.2.10.jar:6.2.10]
             at jdk.proxy1/jdk.proxy1.$Proxy131.save(Unknown Source) ~[na:na]
-            at com.example.okr.service.ObjectiveService.update(ObjectiveService.java:39) ~[classes/:na]
-            at com.example.okr.Controller.ObjectiveController.update(ObjectiveController.java:40) ~[classes/:na]
+            at com.example.okr.service.ObjetivoService.update(ObjectiveService.java:39) ~[classes/:na]
+            at com.example.okr.Controller.ObjetivoController.update(ObjectiveController.java:40) ~[classes/:na]
             at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
             ~[na:na]
             at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
@@ -527,8 +527,8 @@ Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot lo
             at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:223)
             ~[spring-aop-6.2.10.jar:6.2.10]
             at jdk.proxy1/jdk.proxy1.$Proxy131.save(Unknown Source) ~[na:na]
-            at com.example.okr.service.ObjectiveService.create(ObjectiveService.java:21) ~[classes/:na]
-            at com.example.okr.Controller.ObjectiveController.create(ObjectiveController.java:19) ~[classes/:na]
+            at com.example.okr.service.ObjetivoService.create(ObjectiveService.java:21) ~[classes/:na]
+            at com.example.okr.Controller.ObjetivoController.create(ObjectiveController.java:19) ~[classes/:na]
             at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
             ~[na:na]
             at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]

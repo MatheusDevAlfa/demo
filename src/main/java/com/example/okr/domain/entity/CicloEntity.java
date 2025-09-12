@@ -4,23 +4,23 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
 
-@Entity
+@Entity (name = "cycle")
 @Data
-public class CicloEtity {
+public class CicloEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column (name = "name",  nullable = false)
     private String Nome; // Ex: Q1 2024
 
-    @Column
+    @Column (name = "start_date")
     private LocalDate inicioData;
 
-    @Column
+    @Column (name = "end_date")
     private LocalDate fimData;
 
     // Flag de controle de status
-    @Column(nullable = false)
-    private boolean active = true;
+    @Column(name = "is_active", nullable = false)
+    private boolean flagAtivo = true;
 }

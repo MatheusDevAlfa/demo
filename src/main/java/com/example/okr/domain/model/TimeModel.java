@@ -15,21 +15,21 @@ public class TimeModel {
         this.active = active;
     }
 
-    // 🔹 Regra de negócio: ativar time
-    public void activate() {
-        if (this.active) {
-            throw new IllegalStateException("O time já está ativo");
-        }
-        this.active = true;
-    }
-
-    // 🔹 Regra de negócio: desativar time
-    public void deactivate() {
-        if (!this.active) {
-            throw new IllegalStateException("O time já está inativo");
-        }
-        this.active = false;
-    }
+//    // 🔹 Regra de negócio: ativar time
+//    public void activate() {
+//        if (this.active) {
+//            throw new IllegalStateException("O time já está ativo");
+//        }
+//        this.active = true;
+//    }
+//
+//    // 🔹 Regra de negócio: desativar time
+//    public void deactivate() {
+//        if (!this.active) {
+//            throw new IllegalStateException("O time já está inativo");
+//        }
+//        this.active = false;
+//    }
 
     // Getters
     public Long getId() { return id; }

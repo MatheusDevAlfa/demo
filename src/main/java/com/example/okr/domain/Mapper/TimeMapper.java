@@ -9,7 +9,7 @@ public class TimeMapper {
         return new TimeModel(
                 entity.getId(),
                 entity.getNome(),
-                entity.isActive()
+                entity.isFlagActivo()
         );
     }
 
@@ -17,7 +17,7 @@ public class TimeMapper {
         TimeEntity entity = new TimeEntity();
         entity.setId(model.getId());
         entity.setNome(model.getName());
-        entity.setActive(model.isActive());
+        entity.setFlagActivo(model.isActive());
         return entity;
     }
 }

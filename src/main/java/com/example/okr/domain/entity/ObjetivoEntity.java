@@ -1,16 +1,14 @@
 package com.example.okr.domain.entity;
 
 import jakarta.persistence.*;
-import jakarta.persistence.Table;
 import lombok.Data;
 import org.hibernate.annotations.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
+@Entity (name = "objective")
 @Data
-@Table(name = "tbl_objetivos") // Nome da tabela no banco
 @SQLDelete(sql = "UPDATE tbl_objectives SET deleted = true WHERE obj_id = ?")
 @FilterDef(name = "deletedFilter", defaultCondition = "deleted = false")
 @Filters({
@@ -20,30 +18,28 @@ public class ObjetivoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "obj_id")
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "titulo", nullable = false)
+    @Column(name = "title", nullable = false)
     private String titulo;
 
-    @Column(name = "descricao")
+    @Column(name = "description")
     private String descricao;
 
-    @Column(nullable = false)
+    @Column(name = "is_active", nullable = false)
     private boolean flagAtivo = true;
 
-//    @Column(nullable = false)
-//    private boolean Deleta = false;
 
     @ManyToOne
-    @JoinColumn(name = "fk_time", nullable = false)
+    @JoinColumn(name = "team_id", nullable = false)
     private TimeEntity timeEntity;
 
     @ManyToMany
     @JoinTable(
-            name = "objective_cycles",
+            name = "objective_cycle",
             joinColumns = @JoinColumn(name = "objective_id"),
             inverseJoinColumns = @JoinColumn(name = "cycle_id")
     )
-    private Set<CicloEtity> cicloEntity = new HashSet<>(); // Objetivo pode pertencer a vários ciclos
+    private Set<CicloEntity> cicloEntity = new HashSet<>(); // Objetivo pode pertencer a vários ciclos
 }

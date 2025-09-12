@@ -24,21 +24,21 @@ public class CicloModel {
         this.flagAtivo = flagAtivo;
     }
 
-    // 🔹 Regra: ativar ciclo
-    public void activate() {
-        if (this.flagAtivo) {
-            throw new IllegalStateException("O ciclo já está ativo");
-        }
-        this.flagAtivo = true;
-    }
-
-    // 🔹 Regra: desativar ciclo
-    public void deactivate() {
-        if (!this.flagAtivo) {
-            throw new IllegalStateException("O ciclo já está inativo");
-        }
-        this.flagAtivo = false;
-    }
+//    // 🔹 Regra: ativar ciclo
+//    public void activate() {
+//        if (this.flagAtivo) {
+//            throw new IllegalStateException("O ciclo já está ativo");
+//        }
+//        this.flagAtivo = true;
+//    }
+//
+//    // 🔹 Regra: desativar ciclo
+//    public void deactivate() {
+//        if (!this.flagAtivo) {
+//            throw new IllegalStateException("O ciclo já está inativo");
+//        }
+//        this.flagAtivo = false;
+//    }
 
     // Getters (sem setters para manter imutabilidade parcial)
     public Long getId() { return id; }
