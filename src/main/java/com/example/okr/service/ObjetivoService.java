@@ -77,22 +77,14 @@ public class ObjetivoService {
                     HttpStatus.BAD_REQUEST,
                     "O time selecionado está inativo");
         }
-        if (objetivoRepository.existsByTimeEntityAndFlagAtivo(timeEntity, true)) {
+        if (objetivoRepository.existeOutroAtivoParaTime(timeEntity, null)) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
-                    "Esse time já possui um objetivo ativo"
-            );
+                    "Esse time já possui outro objetivo ativo");
         }
 
         Set<CicloEntity> cicloEntity = buscarCiclosAtivos.buscarCiclosAtivos(dto.getIdCiclo());
 
-//        boolean existeCicloInativo = cicloEntity.stream()
-//                .anyMatch(c -> !c.isFlagAtivo());
-//        if (existeCicloInativo) {
-//            throw new ResponseStatusException(
-//                    HttpStatus.BAD_REQUEST,
-//                    "O ciclo selecionado está inativo");
-//        }
 
         ObjetivoEntity objetivoEntity = new ObjetivoEntity();
         objetivoEntity.setTitulo(dto.getTitulo());
