@@ -8,7 +8,7 @@ spring:
   h2:
     console:
       enabled: true
-      path: /h2-console   # Console web do H2 disponível em http://localhost:8080/h2-console
+      path: /h2-console   # Console web do H2 disponÃ­vel em http://localhost:8080/h2-console
 
   sql:
     init:
@@ -17,7 +17,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none      # Não deixar o Hibernate sobrescrever o schema.sql
+      ddl-auto: none      # NÃ£o deixar o Hibernate sobrescrever o schema.sql
     show-sql: true        # Mostrar SQL no console
     properties:
       hibernate:
